@@ -1,26 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Titan+One&family=Nunito:wght@400;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ── Cartoon / Neo-Brutalist Theme ── */
+  --bg-primary:     #FFFFFF; /* Pure White */
+  --bg-secondary:   #FFECB3; /* Subtle Yellow */
+  --bg-card:        #FFFFFF;
+  --bg-glass:       #FFFFFF; /* No glass in cartoon theme, just flat blocks */
+
+  --text-primary:   #18181A; /* Pitch Black */
+  --text-secondary: #2C2C2E;
+  --text-muted:     #55555A;
+
+  --accent:         #FA3C30; /* Vibrant Red */
+  --gold:           #C1D544; /* Retro Lime Green */
+  --blue:           #3EE0D2; /* Cyan/Teal accent */
+
+  --grad-hero:      #FFECB3;
+  --grad-accent:    #FA3C30;
+  --grad-gold:      #C1D544;
+  --grad-card:      #FFFFFF;
+
+  /* Solid black drop shadows instead of soft blurs */
+  --shadow-accent:  4px 4px 0px #18181A;
+  --shadow-lg:      6px 6px 0px #18181A;
+  --shadow-xl:      10px 10px 0px #18181A;
+
+  --border:         #18181A;
+  --border-accent:  #18181A;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  --color-accent: var(--accent);
+  --color-gold: var(--gold);
+  --font-heading: 'Titan One', display;
+  --font-display: 'Titan One', display;
+  --font-body: 'Nunito', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ── Global Reset ── */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── Typography Utilities ── */
+.font-heading { font-family: var(--font-heading); font-weight: 400; letter-spacing: 0.05em; }
+.font-display { font-family: var(--font-display); font-weight: 400; letter-spacing: 0.05em; }
+.font-body    { font-family: var(--font-body); }
+
+/* ── Accent Utilities ── */
+.text-accent      { color: var(--accent); }
+.text-gold        { color: var(--gold); }
+.bg-grad-accent   { background: var(--grad-accent); }
+.border-accent    { border-color: var(--border); }
+
+/* ── Section Labels ── */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  background: #FFECB3;
+  padding: 0.25rem 1.25rem;
+  border-radius: 9999px;
+  border: 3px solid #18181A;
+  box-shadow: 3px 3px 0 #18181A;
+  transform: rotate(-2deg);
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  letter-spacing: 0.05em;
+  border-radius: 9999px;
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+  cursor: pointer;
+  border: 4px solid #18181A;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 4px 4px 0 #18181A;
+}
+.btn:active {
+  transform: translate(4px, 4px) !important;
+  box-shadow: 0px 0px 0 #18181A !important;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #18181A;
+}
+
+.btn-ghost {
+  background: #fff;
+  color: var(--text-primary);
+}
+.btn-ghost:hover {
+  background: #FFECB3;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #18181A;
+}
+
+/* ── Cards ── */
+.glass-card {
+  background: #C1D544;
+  border: 4px solid var(--border);
+  border-radius: 1.5rem;
+  transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+  box-shadow: 6px 6px 0 #18181A;
+  padding: 1.5rem;
+}
+.glass-card:hover {
+  background: #3EE0D2;
+  transform: translate(-4px, -4px);
+  box-shadow: 10px 10px 0 #18181A;
+}
+
+.food-card {
+  background: var(--bg-card);
+  border: 4px solid var(--border);
+  border-radius: 2rem;
+  padding: 1.5rem;
+  transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+}
+.food-card:hover { 
+  transform: translate(-4px, -4px);
+  box-shadow: var(--shadow-xl);
+}
+.food-card img {
+  filter: drop-shadow(4px 4px 0 rgba(24,24,26,0.3));
+}
+
+/* ── Animations ── */
+@keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-16px) rotate(3deg); } }
+@keyframes bounceWobble { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.08) rotate(-3deg); } }
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes marquee-reverse { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+@keyframes marquee-vertical { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.animate-float      { animation: float 4s ease-in-out infinite; }
+.animate-pulse-glow { animation: bounceWobble 3s ease-in-out infinite; }
+.animate-marquee    { animation: marquee 25s linear infinite; }
+.animate-marquee-slow { animation: marquee 40s linear infinite; }
+.animate-marquee-reverse { animation: marquee-reverse 25s linear infinite; }
+.animate-marquee-vertical { animation: marquee-vertical 20s linear infinite; }
+.animate-spin-slow  { animation: spin 10s linear infinite; }
+
+.hover-pause:hover * {
+  animation-play-state: paused !important;
+}
+
+/* ── Premium Reveal Effects ── */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-up.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-mask {
+  position: relative;
+  overflow: hidden;
+}
+.reveal-mask::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  transform: translateX(-100%);
+  transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.reveal-mask.active::after {
+  transform: translateX(101%);
+}
+
+.bg-type-overlay {
+  position: absolute;
+  font-family: var(--font-heading);
+  font-size: 20vw;
+  font-weight: 900;
+  color: #18181A;
+  opacity: 0.03;
+  line-height: 0.8;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* ── Enhanced Paper & Food Pattern Texture ── */
+.noise {
+  position: relative;
+}
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: 
+    /* Paper Texture */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    /* Food Pattern Pieces (Subtle) */
+    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 35c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57 43c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM58 18c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z' fill='%2318181a' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-size: 150px 150px, 120px 120px;
+  z-index: 10;
+  mix-blend-mode: multiply;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* Dynamic Background Circles Animation */
+.bg-circle-float {
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  filter: blur(80px);
+  opacity: 0.1;
+  animation: floatCircle 15s linear infinite;
+}
+
+@keyframes floatCircle {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(10vw, 5vh) scale(1.1); }
+  66% { transform: translate(-5vw, 10vh) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+/* ── Lenis & Smooth Scroll Fixes ── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
