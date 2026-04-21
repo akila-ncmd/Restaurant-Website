@@ -1,10 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import BackToTop from '@/components/BackToTop';
-import Preloader from '@/components/Preloader';
-import SmoothScroll from '@/components/SmoothScroll';
 
 export const metadata: Metadata = {
   title: 'EatBest – Premium Food Delivered Fresh & Fast',
@@ -22,13 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="antialiased">
-        <SmoothScroll>
-          <Preloader />
-          <Header />
-          <main className="relative">{children}</main>
-          <Footer />
-          <BackToTop />
-        </SmoothScroll>
+        {children}
       </body>
     </html>
   );
