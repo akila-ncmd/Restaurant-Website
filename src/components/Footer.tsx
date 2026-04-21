@@ -1,9 +1,9 @@
 'use client';
-import { Facebook, Instagram, Twitter, MapPin, Phone, Mail, Clock, ArrowRight } from 'lucide-react';
+import { Facebook, Instagram, Twitter, MapPin, Phone, Mail, Clock, ArrowRight, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { footerData } from '@/lib/data';
 
-const SOCIAL_ICONS: Record<string, React.ElementType> = {
+const SOCIAL_ICONS: Record<string, LucideIcon> = {
   facebook: Facebook,
   instagram: Instagram,
   twitter: Twitter,
