@@ -23,25 +23,22 @@ export default function BackgroundTypography() {
       {/* ── Subtitle Horizontal Marquees ── */}
       <div className="absolute inset-0 flex flex-col justify-between py-[15vh]">
         <motion.div 
-          style={{ x: x1 }} 
+          style={{ x: x1, WebkitTextStroke: '2px rgba(24, 24, 26, 0.4)' }} 
           className="whitespace-nowrap font-heading text-[10vw] md:text-[8vw] uppercase tracking-widest text-transparent"
-          style={{ WebkitTextStroke: '2px rgba(24, 24, 26, 0.4)' }}
         >
           {repeatedText1}{repeatedText1}
         </motion.div>
 
         <motion.div 
-          style={{ x: x2 }} 
+          style={{ x: x2, WebkitTextStroke: '2px rgba(24, 24, 26, 0.4)' }} 
           className="whitespace-nowrap font-heading text-[10vw] md:text-[8vw] uppercase tracking-widest text-transparent"
-          style={{ WebkitTextStroke: '2px rgba(24, 24, 26, 0.4)' }}
         >
           {repeatedText2}{repeatedText2}
         </motion.div>
 
         <motion.div 
-          style={{ x: x3 }} 
+          style={{ x: x3, WebkitTextStroke: '2px rgba(24, 24, 26, 0.4)' }} 
           className="whitespace-nowrap font-heading text-[10vw] md:text-[8vw] uppercase tracking-widest text-transparent"
-          style={{ WebkitTextStroke: '2px rgba(24, 24, 26, 0.4)' }}
         >
           {repeatedText1}{repeatedText1}
         </motion.div>
@@ -49,9 +46,8 @@ export default function BackgroundTypography() {
 
       {/* ── Massive Vertical Typography ── */}
       <motion.div 
-        style={{ y: yColumn }}
+        style={{ y: yColumn, WebkitTextStroke: '3px rgba(24, 24, 26, 0.2)' }}
         className="absolute top-0 right-[5%] flex flex-col opacity-60 text-transparent"
-        style={{ WebkitTextStroke: '3px rgba(24, 24, 26, 0.2)' }}
       >
         {Array.from({ length: 15 }).map((_, i) => (
           <div key={i} className="font-heading text-[15vw] md:text-[12vw] leading-[0.8] uppercase" style={{ writingMode: 'vertical-rl' }}>
