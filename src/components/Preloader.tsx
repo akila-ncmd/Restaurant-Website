@@ -7,21 +7,29 @@ export default function Preloader() {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          // Small delay before closing the curtain
-          setTimeout(() => setIsVisible(false), 500);
-          return 100;
-        }
-        // Random increment for a more "dynamic" feel
-        const increment = Math.floor(Math.random() * 8) + 2;
-        return Math.min(prev + increment, 100);
-      });
-    }, 100); // Fast update
+    let timeoutId: NodeJS.Timeout;
+    
+    // Slight delay to ensure the browser has settled from the navigation
+    const startProgress = () => {
+      timeoutId = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(timeoutId);
+            setTimeout(() => setIsVisible(false), 500);
+            return 100;
+          }
+          const increment = Math.floor(Math.random() * 12) + 4; // Faster, punchier progress
+          return Math.min(prev + increment, 100);
+        });
+      }, 80);
+    };
 
-    return () => clearInterval(timer);
+    const initialTimeout = setTimeout(startProgress, 100);
+
+    return () => {
+      clearTimeout(initialTimeout);
+      clearInterval(timeoutId);
+    };
   }, []);
 
   // Prevent scrolling while loading

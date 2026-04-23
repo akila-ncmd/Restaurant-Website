@@ -1,6 +1,7 @@
 'use client';
 
-import { useRef, Suspense, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { useRef, Suspense, useMemo, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import {
   Float,
@@ -29,47 +30,37 @@ const SPRINKLE_COLORS = ['#00a8ff', '#9c88ff', '#fbc531', '#4cd137', '#e84118', 
 // ─────────────────────────────────────────
 function PuffyFour({ xOffset, icingColor, delay }: { xOffset: number, icingColor: string, delay: number }) {
   const groupRef = useRef<THREE.Group>(null);
+  const startTime = useRef<number | null>(null);
   
   useFrame((state) => {
     if (!groupRef.current) return;
+    if (startTime.current === null) startTime.current = state.clock.getElapsedTime();
     
-    const t = state.clock.elapsedTime;
-    let currentY = 0;
-    let stretch = 1;
-    let squish = 1;
-    let rotY = 0;
-    let rotZ = 0;
+    const t = state.clock.getElapsedTime() - startTime.current;
+    let targetY = 0;
+    let targetRotY = 0;
+    let targetRotZ = 0;
     
     if (t < delay) {
-      currentY = 6.0; // Start a bit higher
-      rotY = 0;
-      rotZ = 0;
+      targetY = 10.0;
+      if (groupRef.current) groupRef.current.visible = false;
     } else {
+      if (groupRef.current) groupRef.current.visible = true;
       const activeT = t - delay;
       
-      // Much slower, floatier bounce
-      // Using a higher power on the absolute cosine to 'sharpen' the hang time and 'soften' the contact
       const bounceBase = Math.abs(Math.cos(activeT * 1.2));
-      const bounceY = 6.0 * Math.exp(-activeT * 0.6) * Math.pow(bounceBase, 1.5);
-      
-      const floatY = Math.sin(activeT * 1.5) * 0.08;
+      const bounceY = 10.0 * Math.exp(-activeT * 0.8) * Math.pow(bounceBase, 1.8);
+      const floatY = Math.sin(activeT * 1.5) * 0.1;
       const floatMix = Math.min(1, activeT / 3.0); 
       
-      currentY = bounceY + (floatY * floatMix);
-      
-      // Slower, more elegant rotation
-      rotY = Math.sin(activeT * 1.1) * 0.25 * Math.exp(-activeT * 0.5);
-      rotZ = Math.cos(activeT * 0.9) * 0.15 * Math.exp(-activeT * 0.5);
-      
-      // Steady state gentle float rotation
-      rotY += Math.sin(activeT * 0.8) * 0.04 * floatMix;
-      rotZ += Math.sin(activeT * 0.6) * 0.03 * floatMix;
+      targetY = bounceY + (floatY * floatMix);
+      targetRotY = Math.sin(activeT * 1.1) * 0.25 * Math.exp(-activeT * 0.5) + (Math.sin(activeT * 0.8) * 0.05 * floatMix);
+      targetRotZ = Math.cos(activeT * 0.9) * 0.15 * Math.exp(-activeT * 0.5) + (Math.sin(activeT * 0.6) * 0.04 * floatMix);
     }
     
-    groupRef.current.position.y = currentY - 1.3;
-    groupRef.current.scale.set(stretch, squish, stretch);
-    groupRef.current.rotation.y = rotY;
-    groupRef.current.rotation.z = rotZ;
+    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY - 1.3, 0.15);
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, 0.1);
+    groupRef.current.rotation.z = THREE.MathUtils.lerp(groupRef.current.rotation.z, targetRotZ, 0.1);
   });
 
   // Pre-calculated sprinkle coordinates mapped absolutely to the un-centered Text3D
@@ -130,43 +121,37 @@ function PuffyFour({ xOffset, icingColor, delay }: { xOffset: number, icingColor
 // ─────────────────────────────────────────
 function DonutZero({ xOffset, delay = 0 }: { xOffset: number, delay?: number }) {
   const groupRef = useRef<THREE.Group>(null);
+  const startTime = useRef<number | null>(null);
   
   useFrame((state) => {
     if (!groupRef.current) return;
+    if (startTime.current === null) startTime.current = state.clock.getElapsedTime();
     
-    const t = state.clock.elapsedTime;
-    let currentY = 0;
-    let stretch = 1;
-    let squish = 1;
-    let rotY = 0;
-    let rotX = 0;
+    const t = state.clock.getElapsedTime() - startTime.current;
+    let targetY = 0;
+    let targetRotY = 0;
+    let targetRotX = 0;
     
     if (t < delay) {
-      currentY = 6.0;
-      rotY = 0;
-      rotX = 0;
+      targetY = 10.0;
+      if (groupRef.current) groupRef.current.visible = false;
     } else {
+      if (groupRef.current) groupRef.current.visible = true;
       const activeT = t - delay;
       
       const bounceBase = Math.abs(Math.cos(activeT * 1.2));
-      const bounceY = 6.0 * Math.exp(-activeT * 0.6) * Math.pow(bounceBase, 1.5);
+      const bounceY = 10.0 * Math.exp(-activeT * 0.6) * Math.pow(bounceBase, 1.5);
+      const floatY = Math.sin(activeT * 1.5) * 0.1;
+      const floatMix = Math.min(1, activeT / 3.0); 
       
-      const floatY = Math.sin(activeT * 1.5) * 0.08;
-      const floatMix = Math.min(1, activeT / 3.0);
-      
-      currentY = bounceY + (floatY * floatMix);
-      
-      rotY = Math.sin(activeT * 1.1) * 0.25 * Math.exp(-activeT * 0.5);
-      rotX = Math.cos(activeT * 0.9) * 0.15 * Math.exp(-activeT * 0.5);
-      
-      rotY += Math.sin(activeT * 0.8) * 0.04 * floatMix;
-      rotX += Math.sin(activeT * 0.6) * 0.03 * floatMix;
+      targetY = bounceY + (floatY * floatMix);
+      targetRotY = Math.sin(activeT * 1.1) * 0.25 * Math.exp(-activeT * 0.5) + (Math.sin(activeT * 0.8) * 0.05 * floatMix);
+      targetRotX = Math.cos(activeT * 0.9) * 0.15 * Math.exp(-activeT * 0.5) + (Math.sin(activeT * 0.6) * 0.04 * floatMix);
     }
     
-    groupRef.current.position.y = currentY;
-    groupRef.current.scale.set(stretch, squish, stretch);
-    groupRef.current.rotation.y = rotY;
-    groupRef.current.rotation.x = rotX;
+    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.15);
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, 0.1);
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, 0.1);
   });
 
   const sprinkles = useMemo(() => {
@@ -226,6 +211,121 @@ function DonutZero({ xOffset, delay = 0 }: { xOffset: number, delay?: number }) 
 }
 
 // ─────────────────────────────────────────
+// 3D FLOATING PARTICLES (SPRINKLES & DOTS)
+// ─────────────────────────────────────────
+// Pre-allocate temp object for performance
+const tempObject = new THREE.Object3D();
+const tempColor = new THREE.Color();
+
+// ─────────────────────────────────────────
+// 3D FLOATING PARTICLES (SPRINKLES & DOTS) - ULTRA OPTIMIZED
+// ─────────────────────────────────────────
+function FloatingParticles3D({ count = 1000 }) {
+  const meshPillsRef = useRef<THREE.InstancedMesh>(null);
+  const meshDotsRef = useRef<THREE.InstancedMesh>(null);
+
+  const { pillData, dotData } = useMemo(() => {
+    const pills = [];
+    const dots = [];
+    for (let i = 0; i < count; i++) {
+        const data = {
+            position: new THREE.Vector3(
+                (Math.random() - 0.5) * 85,
+                (Math.random() - 0.5) * 55,
+                (Math.random() - 0.5) * 35 - 8
+            ),
+            rotation: new THREE.Euler(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI),
+            scale: Math.random() * 0.4 + 0.15,
+            color: SPRINKLE_COLORS[Math.floor(Math.random() * SPRINKLE_COLORS.length)],
+            speed: Math.random() * 0.15 + 0.05,
+            offset: Math.random() * 500,
+        };
+        if (Math.random() > 0.45) pills.push(data);
+        else dots.push(data);
+    }
+    return { pillData: pills, dotData: dots };
+  }, [count]);
+
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    
+    if (meshPillsRef.current) {
+        pillData.forEach((p, i) => {
+            tempObject.position.set(
+                p.position.x + Math.cos(t * p.speed * 0.5 + p.offset) * 0.3,
+                p.position.y + Math.sin(t * p.speed + p.offset) * 0.4,
+                p.position.z
+            );
+            tempObject.rotation.set(
+                p.rotation.x + t * 0.2,
+                p.rotation.y + t * 0.1,
+                p.rotation.z
+            );
+            tempObject.scale.setScalar(p.scale);
+            tempObject.updateMatrix();
+            meshPillsRef.current!.setMatrixAt(i, tempObject.matrix);
+        });
+        meshPillsRef.current.instanceMatrix.needsUpdate = true;
+    }
+
+    if (meshDotsRef.current) {
+        dotData.forEach((p, i) => {
+            tempObject.position.set(
+                p.position.x + Math.cos(t * p.speed * 0.4 + p.offset) * 0.2,
+                p.position.y + Math.sin(t * p.speed * 0.9 + p.offset) * 0.3,
+                p.position.z
+            );
+            tempObject.scale.setScalar(p.scale);
+            tempObject.updateMatrix();
+            meshDotsRef.current!.setMatrixAt(i, tempObject.matrix);
+        });
+        meshDotsRef.current.instanceMatrix.needsUpdate = true;
+    }
+  });
+
+  useEffect(() => {
+    if (meshPillsRef.current) {
+        pillData.forEach((p, i) => {
+            tempColor.set(p.color);
+            meshPillsRef.current!.setColorAt(i, tempColor);
+        });
+        meshPillsRef.current.instanceColor!.needsUpdate = true;
+    }
+    if (meshDotsRef.current) {
+        dotData.forEach((p, i) => {
+            tempColor.set(p.color);
+            meshDotsRef.current!.setColorAt(i, tempColor);
+        });
+        meshDotsRef.current.instanceColor!.needsUpdate = true;
+    }
+  }, [pillData, dotData]);
+
+  return (
+    <>
+      <instancedMesh 
+        ref={meshPillsRef} 
+        args={[undefined, undefined, pillData.length]}
+        castShadow={false}
+        receiveShadow={false}
+      >
+        <cylinderGeometry args={[0.07, 0.07, 0.35, 6]} />
+        <meshPhongMaterial specular="#ffffff" shininess={100} emissive="#ffffff" emissiveIntensity={0.1} />
+      </instancedMesh>
+      
+      <instancedMesh 
+        ref={meshDotsRef} 
+        args={[undefined, undefined, dotData.length]}
+        castShadow={false}
+        receiveShadow={false}
+      >
+        <sphereGeometry args={[0.12, 6, 6]} />
+        <meshPhongMaterial specular="#ffffff" shininess={100} emissive="#ffffff" emissiveIntensity={0.1} />
+      </instancedMesh>
+    </>
+  );
+}
+
+// ─────────────────────────────────────────
 // MAIN 3D SCENE
 // ─────────────────────────────────────────
 function Scene({ initialDelay = 0 }: { initialDelay?: number }) {
@@ -237,7 +337,7 @@ function Scene({ initialDelay = 0 }: { initialDelay?: number }) {
       const targetTiltY = (state.pointer.x * Math.PI) / 10; // Left-right look
       const targetTiltX = (state.pointer.y * Math.PI) / 14; // Up-down tilt
       
-      // Smoothly lerp towards target rotation for that premium buttery feel
+      // Smoothly lerp towards target rotation
       groupRef.current.rotation.y += (targetTiltY - groupRef.current.rotation.y) * 0.06;
       groupRef.current.rotation.x += (targetTiltX - groupRef.current.rotation.x) * 0.06;
     }
@@ -252,15 +352,11 @@ function Scene({ initialDelay = 0 }: { initialDelay?: number }) {
         castShadow
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
-        shadow-camera-near={0.5}
-        shadow-camera-far={30}
-        shadow-camera-left={-10}
-        shadow-camera-right={10}
-        shadow-camera-top={10}
-        shadow-camera-bottom={-10}
       />
       <directionalLight position={[-5, 3, -3]} intensity={0.5} color="#ffe0b0" />
       <pointLight position={[0, 8, 0]} intensity={0.6} color="#fff8f0" />
+
+      <FloatingParticles3D count={1200} />
 
       {/* Realistic contact shadows (static floor) */}
       <ContactShadows
@@ -275,14 +371,13 @@ function Scene({ initialDelay = 0 }: { initialDelay?: number }) {
       <Environment preset="apartment" />
 
       {/* THE GOURMET DONUT BOX (Interactive grouping) */}
-      <group ref={groupRef}>
+      <group ref={groupRef} position={[0, -0.8, 0]} scale={0.7}>
         {/* 4 - Chocolate Frosted Puffy Pastry */}
         <PuffyFour  xOffset={-5.5} icingColor={MAT.icingChoco} delay={initialDelay + 0} />
         
         {/* 0 - Strawberry Frosted Donut */}
         <DonutZero  xOffset={0} delay={initialDelay + 0.2} />
         
-        {/* 4 - Vanilla Frosted Puffy Pastry */}
         <PuffyFour  xOffset={5.5} icingColor={MAT.icingVanilla} delay={initialDelay + 0.4} />
       </group>
     </>
@@ -291,17 +386,27 @@ function Scene({ initialDelay = 0 }: { initialDelay?: number }) {
 
 export default function FoodScene404({ initialDelay = 0 }: { initialDelay?: number }) {
   return (
-    <div className="w-full h-full">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1.5, delay: 0.5 }}
+      className="w-full h-full"
+    >
       <Canvas
         shadows={{ type: THREE.PCFShadowMap }}
         camera={{ position: [0, 0.3, 10.5], fov: 42 }}
-        gl={{ antialias: true, alpha: true }}
+        gl={{ 
+          antialias: true, 
+          alpha: true, 
+          powerPreference: 'high-performance',
+          precision: 'highp'
+        }}
         style={{ background: 'transparent' }}
       >
         <Suspense fallback={null}>
           <Scene initialDelay={initialDelay} />
         </Suspense>
       </Canvas>
-    </div>
+    </motion.div>
   );
 }

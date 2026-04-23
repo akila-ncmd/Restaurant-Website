@@ -8,7 +8,7 @@ export const headerData: HeaderData = {
   nav: [
     { label: 'Home', href: '/' },
     { label: 'About Us', href: '/about' },
-    { label: 'Shop', href: '/menu' },
+    { label: 'Menu', href: '/menu' },
     { label: 'Blog', href: '/blog' },
     { label: 'Contact Us', href: '/contact' },
   ],

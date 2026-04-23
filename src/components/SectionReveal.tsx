@@ -130,7 +130,10 @@ export default function SectionReveal({
       {sticky ? (
         <div
           className="sticky top-0 h-screen w-full overflow-hidden"
-          style={{ perspective: (viewMode === 'flip' || viewMode === 'fold') ? '1200px' : 'none' }}
+          style={{ 
+            position: 'sticky',
+            perspective: (viewMode === 'flip' || viewMode === 'fold') ? '1200px' : 'none' 
+          }}
         >
           <motion.div
             style={{
