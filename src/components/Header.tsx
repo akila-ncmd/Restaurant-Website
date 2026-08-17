@@ -43,15 +43,16 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1 xl:gap-2">
+          {/* Desktop Navigation. Held back to `lg`: logo + five nav pills + actions
+              need ~1030px, so showing this from `md` clipped the Order button. */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
             {headerData.nav.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative px-5 py-2.5 font-heading font-extrabold text-sm uppercase tracking-wider transition-all duration-200 rounded-full border-4 border-transparent hover:border-[#18181A] hover:bg-white hover:shadow-[4px_4px_0_#18181A] ${
+                  className={`relative px-3 xl:px-5 py-2.5 font-heading font-extrabold text-sm uppercase tracking-wider transition-all duration-200 rounded-full border-4 border-transparent hover:border-[#18181A] hover:bg-white hover:shadow-[4px_4px_0_#18181A] ${
                     isActive ? 'border-[#18181A] bg-[#C1D544] shadow-[4px_4px_0_#18181A]' : 'text-[#18181A]/70 hover:text-[#18181A]'
                   }`}
                 >
@@ -82,7 +83,7 @@ export default function Header() {
 
             <button
               onClick={() => setOpen(!open)}
-              className="md:hidden w-12 h-12 rounded-full border-4 border-[#18181A] bg-white shadow-[4px_4px_0_#18181A] flex items-center justify-center text-[#18181A] hover:bg-[#C1D544] transition-all duration-200"
+              className="lg:hidden w-12 h-12 rounded-full border-4 border-[#18181A] bg-white shadow-[4px_4px_0_#18181A] flex items-center justify-center text-[#18181A] hover:bg-[#C1D544] transition-all duration-200"
               aria-label="Toggle menu"
             >
               <AnimatePresence mode="wait">

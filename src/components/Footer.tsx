@@ -68,7 +68,7 @@ export default function Footer() {
             <div>
               <h4 className="font-heading text-xl font-bold text-[#18181A] mb-8 uppercase tracking-widest">Info</h4>
               <ul className="space-y-4">
-                {footerData.explore.slice(2).map((item) => (
+                {footerData.explore.slice(3).map((item) => (
                   <li key={item.label}>
                     <Link href={item.href} className="text-lg font-bold text-[#18181A]/70 hover:text-[#C1D544] transition-colors relative group">
                       {item.label}

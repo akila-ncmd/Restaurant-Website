@@ -29,8 +29,13 @@ export default function Hero() {
 
   return (
     <>
-      <section 
-        className="relative h-screen flex flex-col items-center justify-center pt-40 pb-6 overflow-hidden transition-colors duration-1000 noise" 
+      {/*
+        min-h-screen, not h-screen: on shorter viewports the content is taller than
+        100vh, and a fixed height clipped it while justify-center pushed the badge
+        up underneath the fixed header.
+      */}
+      <section
+        className="relative min-h-screen flex flex-col items-center justify-center pt-32 md:pt-40 pb-6 overflow-hidden transition-colors duration-1000 noise"
         style={{ backgroundColor: slide.secondaryColor }}
       >
         

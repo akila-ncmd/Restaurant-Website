@@ -7,30 +7,26 @@ export default function Preloader() {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    let intervalId: ReturnType<typeof setInterval> | undefined;
-    
-    // Slight delay to ensure the browser has settled from the navigation
-    const startProgress = () => {
-      intervalId = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(intervalId);
-            setTimeout(() => setIsVisible(false), 500);
-            return 100;
-          }
-          const increment = Math.floor(Math.random() * 12) + 4; // Faster, punchier progress
-          return Math.min(prev + increment, 100);
-        });
-      }, 80);
-    };
+    if (!isVisible) return;
 
-    const initialTimeout = setTimeout(startProgress, 100);
+    const intervalId = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) return 100;
+        const increment = Math.floor(Math.random() * 12) + 4; // Faster, punchier progress
+        return Math.min(prev + increment, 100);
+      });
+    }, 80);
 
-    return () => {
-      clearTimeout(initialTimeout);
-      clearInterval(intervalId);
-    };
-  }, []);
+    return () => clearInterval(intervalId);
+  }, [isVisible]);
+
+  // Dismissal lives in its own effect rather than inside the setProgress updater:
+  // React may invoke an updater more than once, which scheduled stray timers.
+  useEffect(() => {
+    if (progress < 100) return;
+    const timeoutId = setTimeout(() => setIsVisible(false), 500);
+    return () => clearTimeout(timeoutId);
+  }, [progress]);
 
   // Prevent scrolling while loading. The cleanup matters: without it an unmount
   // mid-load would leave the page permanently unscrollable.
@@ -46,12 +42,15 @@ export default function Preloader() {
     <AnimatePresence>
       {isVisible && (
         <motion.div
+          key="preloader"
           initial={{ clipPath: 'inset(0% 0% 0% 0%)' }}
-          exit={{ 
+          exit={{
             clipPath: 'inset(0% 0% 100% 0%)',
-            transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1] } 
+            transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1] }
           }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white overflow-hidden"
+          // md:pb-32 reserves room for the absolutely-positioned meta row below,
+          // which the centred content overlapped on shorter viewports.
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white overflow-hidden md:pb-32"
         >
           {/* Noise Texture Overlay */}
           <div className="absolute inset-0 pointer-events-none opacity-20 noise" />
