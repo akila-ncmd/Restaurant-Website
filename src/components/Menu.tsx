@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { menuData } from '@/lib/data';
-import { Star, ShoppingCart, Flame, Tag, ChefHat } from 'lucide-react';
+import { ShoppingCart, ChefHat } from 'lucide-react';
 import JaggedDivider from './JaggedDivider';
 
 export default function Menu() {

@@ -4,9 +4,7 @@ export interface NavItem {
 }
 
 export interface HeaderData {
-  logo: { text: string; link: string };
   nav: NavItem[];
-  cta: { text: string };
 }
 
 export interface HeroSlide {
@@ -21,10 +19,7 @@ export interface HeroSlide {
 }
 
 export interface HeroData {
-  id: string;
   slides: HeroSlide[];
-  primaryButton: { text: string; link: string };
-  secondaryButton: { text: string; link: string };
 }
 
 export interface PromoItem {
@@ -35,19 +30,12 @@ export interface PromoItem {
 }
 
 export interface PromoData {
-  id: string;
   items: PromoItem[];
 }
 
 export interface AboutData {
-  id: string;
   subtitle: string;
-  title: string;
-  description: string;
-  features: string[];
-  button: { text: string; link: string };
   image: string;
-  deal: string;
 }
 
 export interface MenuItem {
@@ -62,21 +50,12 @@ export interface MenuItem {
 }
 
 export interface MenuData {
-  id: string;
-  subtitle: string;
-  title: string;
   description: string;
-  categories: string[];
   items: MenuItem[];
 }
 
 export interface DeliveryData {
-  id: string;
-  title: string;
-  highlight: string;
   description: string;
-  buttonText: string;
-  imageBg: string;
   imageBoy: string;
 }
 
@@ -89,10 +68,7 @@ export interface TestimonialItem {
 }
 
 export interface TestimonialData {
-  id: string;
   subtitle: string;
-  title: string;
-  description: string;
   items: TestimonialItem[];
 }
 
@@ -106,7 +82,6 @@ export interface BannerItem {
 }
 
 export interface BannerData {
-  id: string;
   items: BannerItem[];
 }
 
@@ -121,18 +96,14 @@ export interface BlogPost {
 }
 
 export interface BlogData {
-  id: string;
   subtitle: string;
-  title: string;
   description: string;
   posts: BlogPost[];
 }
 
 export interface FooterData {
-  brand: { name: string; tagline: string; description: string };
   socials: { icon: string; link: string }[];
-  explore: { label: string; href: string }[];
-  support: string[];
-  newsletter: { title: string; text: string; button: string };
+  explore: NavItem[];
+  support: NavItem[];
   copyright: string;
 }

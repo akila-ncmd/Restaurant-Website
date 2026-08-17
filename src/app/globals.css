@@ -4,37 +4,20 @@
 :root {
   /* ── Cartoon / Neo-Brutalist Theme ── */
   --bg-primary:     #FFFFFF; /* Pure White */
-  --bg-secondary:   #FFECB3; /* Subtle Yellow */
-  --bg-card:        #FFFFFF;
-  --bg-glass:       #FFFFFF; /* No glass in cartoon theme, just flat blocks */
 
   --text-primary:   #18181A; /* Pitch Black */
-  --text-secondary: #2C2C2E;
-  --text-muted:     #55555A;
 
   --accent:         #FA3C30; /* Vibrant Red */
-  --gold:           #C1D544; /* Retro Lime Green */
-  --blue:           #3EE0D2; /* Cyan/Teal accent */
 
-  --grad-hero:      #FFECB3;
   --grad-accent:    #FA3C30;
   --grad-gold:      #C1D544;
-  --grad-card:      #FFFFFF;
-
-  /* Solid black drop shadows instead of soft blurs */
-  --shadow-accent:  4px 4px 0px #18181A;
-  --shadow-lg:      6px 6px 0px #18181A;
-  --shadow-xl:      10px 10px 0px #18181A;
 
   --border:         #18181A;
-  --border-accent:  #18181A;
 }
 
 @theme {
-  --color-accent: var(--accent);
-  --color-gold: var(--gold);
-  --font-heading: 'Titan One', display;
-  --font-display: 'Titan One', display;
+  --font-heading: 'Titan One', cursive;
+  --font-display: 'Titan One', cursive;
   --font-body: 'Nunito', sans-serif;
 }
 
@@ -53,12 +36,6 @@ body {
 .font-heading { font-family: var(--font-heading); font-weight: 400; letter-spacing: 0.05em; }
 .font-display { font-family: var(--font-display); font-weight: 400; letter-spacing: 0.05em; }
 .font-body    { font-family: var(--font-body); }
-
-/* ── Accent Utilities ── */
-.text-accent      { color: var(--accent); }
-.text-gold        { color: var(--gold); }
-.bg-grad-accent   { background: var(--grad-accent); }
-.border-accent    { border-color: var(--border); }
 
 /* ── Section Labels ── */
 .section-label {
@@ -137,75 +114,16 @@ body {
   box-shadow: 10px 10px 0 #18181A;
 }
 
-.food-card {
-  background: var(--bg-card);
-  border: 4px solid var(--border);
-  border-radius: 2rem;
-  padding: 1.5rem;
-  transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: var(--shadow-lg);
-}
-.food-card:hover { 
-  transform: translate(-4px, -4px);
-  box-shadow: var(--shadow-xl);
-}
-.food-card img {
-  filter: drop-shadow(4px 4px 0 rgba(24,24,26,0.3));
-}
-
 /* ── Animations ── */
 @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-16px) rotate(3deg); } }
-@keyframes bounceWobble { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.08) rotate(-3deg); } }
 @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 @keyframes marquee-reverse { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
-@keyframes marquee-vertical { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 .animate-float      { animation: float 4s ease-in-out infinite; }
-.animate-pulse-glow { animation: bounceWobble 3s ease-in-out infinite; }
 .animate-marquee    { animation: marquee 25s linear infinite; }
-.animate-marquee-slow { animation: marquee 40s linear infinite; }
 .animate-marquee-reverse { animation: marquee-reverse 25s linear infinite; }
-.animate-marquee-vertical { animation: marquee-vertical 20s linear infinite; }
 .animate-spin-slow  { animation: spin 10s linear infinite; }
-
-.hover-pause:hover * {
-  animation-play-state: paused !important;
-}
-
-/* ── Premium Reveal Effects ── */
-.reveal-up {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal-up.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-mask {
-  position: relative;
-  overflow: hidden;
-}
-.reveal-mask::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--accent);
-  transform: translateX(-100%);
-  transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
-}
-.reveal-mask.active::after {
-  transform: translateX(101%);
-}
 
 .bg-type-overlay {
   position: absolute;

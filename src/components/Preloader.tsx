@@ -7,14 +7,14 @@ export default function Preloader() {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    let intervalId: ReturnType<typeof setInterval> | undefined;
     
     // Slight delay to ensure the browser has settled from the navigation
     const startProgress = () => {
-      timeoutId = setInterval(() => {
+      intervalId = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
-            clearInterval(timeoutId);
+            clearInterval(intervalId);
             setTimeout(() => setIsVisible(false), 500);
             return 100;
           }
@@ -28,17 +28,18 @@ export default function Preloader() {
 
     return () => {
       clearTimeout(initialTimeout);
-      clearInterval(timeoutId);
+      clearInterval(intervalId);
     };
   }, []);
 
-  // Prevent scrolling while loading
+  // Prevent scrolling while loading. The cleanup matters: without it an unmount
+  // mid-load would leave the page permanently unscrollable.
   useEffect(() => {
-    if (isVisible) {
-      document.body.style.overflow = 'hidden';
-    } else {
+    if (!isVisible) return;
+    document.body.style.overflow = 'hidden';
+    return () => {
       document.body.style.overflow = '';
-    }
+    };
   }, [isVisible]);
 
   return (

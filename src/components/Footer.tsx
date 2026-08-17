@@ -1,5 +1,5 @@
 'use client';
-import { Facebook, Instagram, Twitter, MapPin, Phone, Mail, Clock, ArrowRight, type LucideIcon } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Clock, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { footerData } from '@/lib/data';
 
@@ -68,10 +68,10 @@ export default function Footer() {
             <div>
               <h4 className="font-heading text-xl font-bold text-[#18181A] mb-8 uppercase tracking-widest">Info</h4>
               <ul className="space-y-4">
-                {['About Us', 'Contact', 'Blog'].map((label) => (
-                  <li key={label}>
-                    <Link href="#" className="text-lg font-bold text-[#18181A]/70 hover:text-[#C1D544] transition-colors relative group">
-                      {label}
+                {footerData.explore.slice(2).map((item) => (
+                  <li key={item.label}>
+                    <Link href={item.href} className="text-lg font-bold text-[#18181A]/70 hover:text-[#C1D544] transition-colors relative group">
+                      {item.label}
                       <span className="absolute -bottom-1 left-0 w-0 h-1 bg-[#C1D544] group-hover:w-full transition-all duration-300" />
                     </Link>
                   </li>
@@ -81,10 +81,10 @@ export default function Footer() {
             <div className="hidden sm:block">
               <h4 className="font-heading text-xl font-bold text-[#18181A] mb-8 uppercase tracking-widest">Support</h4>
               <ul className="space-y-4">
-                {['FAQ', 'Shipping', 'Returns'].map((label) => (
-                  <li key={label}>
-                    <Link href="#" className="text-lg font-bold text-[#18181A]/70 hover:text-[#3EE0D2] transition-colors relative group">
-                      {label}
+                {footerData.support.map((item) => (
+                  <li key={item.label}>
+                    <Link href={item.href} className="text-lg font-bold text-[#18181A]/70 hover:text-[#3EE0D2] transition-colors relative group">
+                      {item.label}
                       <span className="absolute -bottom-1 left-0 w-0 h-1 bg-[#3EE0D2] group-hover:w-full transition-all duration-300" />
                     </Link>
                   </li>

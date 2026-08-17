@@ -39,9 +39,14 @@ export default function Testimonials() {
               transition={{ delay: i * 0.1, duration: 0.5 }}
               className="glass-card p-8 md:p-10"
             >
-              <div className="flex gap-1 mb-6">
-                {[...Array(5)].map((_, idx) => (
-                  <Star key={idx} size={18} className="text-[#C1D544]" fill="#C1D544" />
+              <div className="flex gap-1 mb-6" aria-label={`Rated ${item.rating} out of 5`}>
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <Star
+                    key={idx}
+                    size={18}
+                    className={idx < item.rating ? 'text-[#C1D544]' : 'text-black/15'}
+                    fill={idx < item.rating ? '#C1D544' : 'currentColor'}
+                  />
                 ))}
               </div>
               

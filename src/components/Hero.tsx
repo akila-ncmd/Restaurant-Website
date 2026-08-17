@@ -1,10 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, ArrowRight, Zap, Star, ChefHat, Cookie, Coffee, IceCream, Utensils, Pizza, Soup, Apple } from 'lucide-react';
+import { Play, ArrowRight, Zap, ChefHat, Cookie, Coffee, IceCream, Utensils, Pizza, Soup, Apple } from 'lucide-react';
 import Image from 'next/image';
 import { heroData } from '@/lib/data';
-import SmoothMarquee from './SmoothMarquee';
 
 const FOOD_ICONS = [
   { Icon: ChefHat, top: '15%', left: '5%', rotate: -15, size: 40 },
@@ -89,7 +88,7 @@ export default function Hero() {
                   <motion.div 
                     variants={{ initial: { opacity: 0, y: 15 }, animate: { opacity: 1, y: 0 } }}
                     className="inline-flex items-center gap-3 px-6 py-2 rounded-full border-4 border-[#18181A] shadow-[4px_4px_0_#18181A] mb-8 transform -rotate-1"
-                    style={{ backgroundColor: slide.accentColor, color: slide.accentColor === '#FFFDF2' ? '#18181A' : 'white' }}
+                    style={{ backgroundColor: slide.accentColor, color: 'white' }}
                   >
                     <Zap size={18} fill="currentColor" />
                     <span className="font-heading text-[11px] md:text-xs font-black tracking-widest uppercase">{slide.subtitle}</span>
@@ -102,7 +101,7 @@ export default function Hero() {
                       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                       className="text-3xl md:text-4xl lg:text-6xl font-heading font-extrabold text-[#18181A] leading-[1.05]"
                     >
-                      {slide.title.substring(0, slide.title.lastIndexOf(' '))}
+                      {slide.title}
                       <br />
                       <span className="inline-block drop-shadow-[4px_4px_0_#18181A]" style={{ color: slide.accentColor }}>
                         {slide.highlightedText}

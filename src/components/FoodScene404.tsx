@@ -3,16 +3,7 @@
 import { motion } from 'framer-motion';
 import { useRef, Suspense, useMemo, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import {
-  Float,
-  Environment,
-  ContactShadows,
-  Torus,
-  Cylinder,
-  Capsule,
-  Center,
-  Text3D
-} from '@react-three/drei';
+import { Environment, ContactShadows, Torus, Cylinder, Text3D } from '@react-three/drei';
 import * as THREE from 'three';
 
 // ── The Gourmet Bakery Palette ──
@@ -24,6 +15,21 @@ const MAT = {
 };
 
 const SPRINKLE_COLORS = ['#00a8ff', '#9c88ff', '#fbc531', '#4cd137', '#e84118', '#ffffff'];
+
+/**
+ * Deterministic PRNG (mulberry32). The confetti has to look random but stay identical
+ * across renders — an unseeded random reshuffles the whole scene on every re-render and
+ * breaks React's purity rules.
+ */
+function makeRandom(seed: number) {
+  let a = seed;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
 // ─────────────────────────────────────────
 // The "4" Shaped Solid Frosted Pastry
@@ -77,10 +83,11 @@ function PuffyFour({ xOffset, icingColor, delay }: { xOffset: number, icingColor
       [0.5, 1.0, 0.58], [1.4, 1.3, 0.58], [1.8, 1.2, 0.58]                                       
     ];
     
+    const rand = makeRandom(0x5eed1);
     return coords.map(c => ({
       pos: c as [number, number, number],
-      rot: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI] as [number, number, number],
-      color: SPRINKLE_COLORS[Math.floor(Math.random() * SPRINKLE_COLORS.length)]
+      rot: [rand() * Math.PI, rand() * Math.PI, rand() * Math.PI] as [number, number, number],
+      color: SPRINKLE_COLORS[Math.floor(rand() * SPRINKLE_COLORS.length)]
     }));
   }, []);
 
@@ -155,9 +162,10 @@ function DonutZero({ xOffset, delay = 0 }: { xOffset: number, delay?: number }) 
   });
 
   const sprinkles = useMemo(() => {
+    const rand = makeRandom(0x5eed2);
     return Array.from({ length: 110 }).map(() => {
-      const u = Math.random() * Math.PI * 2; 
-      const v = Math.random() * Math.PI; // front half only
+      const u = rand() * Math.PI * 2; 
+      const v = rand() * Math.PI; // front half only
       
       const R = 1.35; 
       const r = 0.51; 
@@ -172,14 +180,14 @@ function DonutZero({ xOffset, delay = 0 }: { xOffset: number, delay?: number }) 
       const normal = new THREE.Vector3(nx, ny, nz);
       
       const quaternion = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal);
-      const randomRot = new THREE.Quaternion().setFromAxisAngle(normal, Math.random() * Math.PI);
+      const randomRot = new THREE.Quaternion().setFromAxisAngle(normal, rand() * Math.PI);
       quaternion.multiply(randomRot);
       const euler = new THREE.Euler().setFromQuaternion(quaternion);
 
       return {
         pos: [x, y, z] as [number, number, number],
         rot: [euler.x, euler.y, euler.z] as [number, number, number],
-        color: SPRINKLE_COLORS[Math.floor(Math.random() * SPRINKLE_COLORS.length)]
+        color: SPRINKLE_COLORS[Math.floor(rand() * SPRINKLE_COLORS.length)]
       };
     });
   }, []);
@@ -225,22 +233,23 @@ function FloatingParticles3D({ count = 1000 }) {
   const meshDotsRef = useRef<THREE.InstancedMesh>(null);
 
   const { pillData, dotData } = useMemo(() => {
+    const rand = makeRandom(0x5eed3);
     const pills = [];
     const dots = [];
     for (let i = 0; i < count; i++) {
         const data = {
             position: new THREE.Vector3(
-                (Math.random() - 0.5) * 85,
-                (Math.random() - 0.5) * 55,
-                (Math.random() - 0.5) * 35 - 8
+                (rand() - 0.5) * 85,
+                (rand() - 0.5) * 55,
+                (rand() - 0.5) * 35 - 8
             ),
-            rotation: new THREE.Euler(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI),
-            scale: Math.random() * 0.4 + 0.15,
-            color: SPRINKLE_COLORS[Math.floor(Math.random() * SPRINKLE_COLORS.length)],
-            speed: Math.random() * 0.15 + 0.05,
-            offset: Math.random() * 500,
+            rotation: new THREE.Euler(rand() * Math.PI, rand() * Math.PI, rand() * Math.PI),
+            scale: rand() * 0.4 + 0.15,
+            color: SPRINKLE_COLORS[Math.floor(rand() * SPRINKLE_COLORS.length)],
+            speed: rand() * 0.15 + 0.05,
+            offset: rand() * 500,
         };
-        if (Math.random() > 0.45) pills.push(data);
+        if (rand() > 0.45) pills.push(data);
         else dots.push(data);
     }
     return { pillData: pills, dotData: dots };

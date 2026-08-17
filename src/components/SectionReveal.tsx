@@ -37,11 +37,12 @@ export default function SectionReveal({
 
     // Check for height changes (e.g. images loading)
     const observer = new ResizeObserver(updateHeights);
-    if (contentRef.current) observer.observe(contentRef.current);
+    const content = contentRef.current;
+    if (content) observer.observe(content);
 
     return () => {
       window.removeEventListener('resize', updateHeights);
-      if (contentRef.current) observer.disconnect();
+      observer.disconnect();
     };
   }, []);
 
@@ -105,12 +106,6 @@ export default function SectionReveal({
     [foldStart, 1],
     viewMode === 'flip' ? [0, -200] : viewMode === 'fold' ? [0, -100] : [0, 0]
   );
-  const originY = useTransform(
-    smoothProgress,
-    [foldStart, 1],
-    viewMode === 'flip' ? ['50%', '0%'] : viewMode === 'fold' ? ['50%', '100%'] : ['50%', '50%']
-  );
-
   const filter = useTransform(
     smoothProgress,
     [foldStart, 1],

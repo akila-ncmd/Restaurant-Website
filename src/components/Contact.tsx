@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, MessageSquare, Clock, Globe, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, MessageSquare, Clock, Globe, ChevronDown, ChevronUp } from 'lucide-react';
 
 const CONTACT_ITEMS = [
   { icon: Phone,  label: 'Text or Call',    value: '+1 234 567 890',       color: '#FA3C30', bg: '#FFEBEE' },
@@ -54,7 +54,7 @@ export default function Contact() {
             className="lg:col-span-12 xl:col-span-5 space-y-8"
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-              {CONTACT_ITEMS.map((item, i) => (
+              {CONTACT_ITEMS.map((item) => (
                 <motion.div
                   key={item.label}
                   whileHover={{ x: 10, scale: 1.02 }}
@@ -161,7 +161,7 @@ export default function Contact() {
                     onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
                     className="w-full p-6 md:p-8 flex items-center justify-between text-left group"
                   >
-                    <h4 className="text-xl md:text-2xl font-heading font-black text-[#18181A] line-tight pr-4">
+                    <h4 className="text-xl md:text-2xl font-heading font-black text-[#18181A] leading-tight pr-4">
                       {faq.q}
                     </h4>
                     <div className={`shrink-0 w-10 h-10 rounded-full border-2 border-[#18181A] flex items-center justify-center transition-transform ${expandedIndex === i ? 'bg-[#FA3C30] text-white rotate-180' : 'bg-white text-[#18181A]'}`}>

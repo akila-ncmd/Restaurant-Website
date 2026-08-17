@@ -2,9 +2,8 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { promoData } from '@/lib/data';
-import { ArrowUpRight, Plus } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
-import JaggedDivider from './JaggedDivider';
 import SmoothMarquee from './SmoothMarquee';
 import { Sparkles, Star, Utensils, Apple, Pizza, Coffee, IceCream, Zap, Soup } from 'lucide-react';
 

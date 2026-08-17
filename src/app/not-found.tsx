@@ -1,9 +1,10 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Home, Utensils, ArrowLeft } from 'lucide-react';
+import { Home, Utensils } from 'lucide-react';
 
 // Lazy-load the heavy 3D scene — avoids SSR issues and speeds up initial paint
 const FoodScene404 = dynamic(() => import('@/components/FoodScene404'), {
@@ -48,7 +49,13 @@ export default function NotFound() {
         transition={{ duration: 1.5, ease: 'easeOut' }}
         className="absolute -right-[10%] -bottom-[5%] w-[45vw] max-w-[600px] pointer-events-none select-none z-0"
       >
-        <img src="/lost_burger_404.png" alt="" className="w-full h-auto opacity-30 blur-[1px]" />
+        <Image
+          src="/lost_burger_404.png"
+          alt=""
+          width={600}
+          height={600}
+          className="w-full h-auto opacity-30 blur-[1px]"
+        />
       </motion.div>
 
       {/* ── Subtle warm radial gradient backdrop (Layered) ── */}

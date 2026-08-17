@@ -1,11 +1,11 @@
 'use client';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { CheckCircle2, ArrowRight, Award, Heart, Star, Users } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Award, Heart, Star, Users, type LucideIcon } from 'lucide-react';
 import { aboutData } from '@/lib/data';
 
 interface StatItemProps {
-  icon: any;
+  icon: LucideIcon;
   value: string;
   label: string;
   color: string;

@@ -24,8 +24,6 @@ export default function Header() {
     if (searchOpen && searchRef.current) searchRef.current.focus();
   }, [searchOpen]);
 
-  useEffect(() => { setOpen(false); }, [pathname]);
-
   return (
     <>
       <header
@@ -36,7 +34,7 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between gap-6">
 
           {/* Logo - Neo Brutalist Item */}
-          <Link href="/" className="flex items-center gap-4 group relative z-50 shrink-0">
+          <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-4 group relative z-50 shrink-0">
             <div className="w-12 h-12 rounded-xl bg-[#FA3C30] border-4 border-[#18181A] shadow-[4px_4px_0_#18181A] flex items-center justify-center transition-all duration-300 group-hover:rotate-6">
               <span className="font-heading text-white font-bold text-2xl leading-none">E</span>
             </div>
@@ -75,6 +73,7 @@ export default function Header() {
 
             <Link
               href="/menu"
+              onClick={() => setOpen(false)}
               className="btn btn-primary hidden sm:flex text-sm py-3 px-8 border-4 border-[#18181A] shadow-[4px_4px_0_#18181A]"
             >
               <ShoppingBag size={18} strokeWidth={3} />

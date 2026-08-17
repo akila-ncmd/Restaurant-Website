@@ -87,6 +87,10 @@ export default function Banners() {
                       {item.title}
                     </h3>
 
+                    <p className="font-heading text-base font-bold text-white/70 uppercase tracking-widest">
+                      {item.text}
+                    </p>
+
                     <button className="flex items-center gap-4 mt-6 group/btn">
                       <div className="w-16 h-16 rounded-full bg-white border-4 border-[#18181A] shadow-[4px_4px_0_#C1D544] flex items-center justify-center group-hover/btn:bg-[#FA3C30] transition-colors">
                         <ArrowRight size={32} className="text-[#18181A]" />
