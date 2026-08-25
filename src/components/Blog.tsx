@@ -65,7 +65,7 @@ export default function Blog() {
               <h3 className="text-4xl md:text-5xl font-heading font-black text-[#18181A] mb-6 leading-tight hover:text-[#FA3C30] transition-colors cursor-pointer">
                 {featuredPost.title}
               </h3>
-              <p className="description text-lg font-bold text-[#18181A]/60 mb-10 leading-relaxed">
+              <p className="text-lg font-bold text-[#18181A]/60 mb-10 leading-relaxed">
                 {featuredPost.excerpt}
               </p>
               <div className="flex items-center justify-between">

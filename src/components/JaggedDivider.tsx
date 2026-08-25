@@ -17,7 +17,6 @@ export default function JaggedDivider({ color = 'white', position = 'top', anima
   return (
     <div 
       ref={containerRef}
-      style={{ position: 'absolute' }}
       className={`absolute left-0 w-[110%] overflow-hidden leading-[0] z-30 ${position === 'top' ? '-top-[1px]' : '-bottom-[1px]'} ${rotation}`}
     >
       <motion.svg

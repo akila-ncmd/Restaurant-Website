@@ -49,9 +49,9 @@ function PuffyFour({ xOffset, icingColor, delay }: { xOffset: number, icingColor
     
     if (t < delay) {
       targetY = 10.0;
-      if (groupRef.current) groupRef.current.visible = false;
+      groupRef.current.visible = false;
     } else {
-      if (groupRef.current) groupRef.current.visible = true;
+      groupRef.current.visible = true;
       const activeT = t - delay;
       
       const bounceBase = Math.abs(Math.cos(activeT * 1.2));
@@ -141,9 +141,9 @@ function DonutZero({ xOffset, delay = 0 }: { xOffset: number, delay?: number }) 
     
     if (t < delay) {
       targetY = 10.0;
-      if (groupRef.current) groupRef.current.visible = false;
+      groupRef.current.visible = false;
     } else {
-      if (groupRef.current) groupRef.current.visible = true;
+      groupRef.current.visible = true;
       const activeT = t - delay;
       
       const bounceBase = Math.abs(Math.cos(activeT * 1.2));
@@ -219,16 +219,13 @@ function DonutZero({ xOffset, delay = 0 }: { xOffset: number, delay?: number }) 
 }
 
 // ─────────────────────────────────────────
-// 3D FLOATING PARTICLES (SPRINKLES & DOTS)
+// 3D FLOATING PARTICLES (SPRINKLES & DOTS) - ULTRA OPTIMIZED
 // ─────────────────────────────────────────
-// Pre-allocate temp object for performance
+// Pre-allocate temp objects for performance
 const tempObject = new THREE.Object3D();
 const tempColor = new THREE.Color();
 
-// ─────────────────────────────────────────
-// 3D FLOATING PARTICLES (SPRINKLES & DOTS) - ULTRA OPTIMIZED
-// ─────────────────────────────────────────
-function FloatingParticles3D({ count = 1000 }) {
+function FloatingParticles3D({ count }: { count: number }) {
   const meshPillsRef = useRef<THREE.InstancedMesh>(null);
   const meshDotsRef = useRef<THREE.InstancedMesh>(null);
 

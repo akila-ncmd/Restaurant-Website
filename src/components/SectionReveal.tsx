@@ -8,7 +8,7 @@ interface SectionRevealProps {
   sticky?: boolean;
   zIndex?: number;
   activeReveal?: boolean;
-  viewMode?: 'recede' | 'zoom' | 'still' | 'flip' | 'blur' | 'fold';
+  viewMode?: 'recede' | 'zoom' | 'flip' | 'fold';
   buffer?: number; // Distance to wait after content ends (in vh units)
 }
 
@@ -82,12 +82,12 @@ export default function SectionReveal({
   const scale = useTransform(
     smoothProgress,
     [foldStart, 1],
-    viewMode === 'zoom' ? [1, 1.1] : viewMode === 'flip' ? [1, 0.92] : viewMode === 'fold' ? [1, 0.8] : viewMode === 'blur' ? [1, 0.9] : [1, 0.85]
+    viewMode === 'zoom' ? [1, 1.1] : viewMode === 'flip' ? [1, 0.92] : viewMode === 'fold' ? [1, 0.8] : [1, 0.85]
   );
   const opacity = useTransform(
     smoothProgress,
     [foldStart, 1],
-    [1, viewMode === 'flip' ? 0.4 : viewMode === 'blur' ? 0.2 : viewMode === 'fold' ? 1 : 0.7]
+    [1, viewMode === 'flip' ? 0.4 : viewMode === 'fold' ? 1 : 0.7]
   );
   const overlayOpacity = useTransform(
     smoothProgress, 
@@ -106,28 +106,21 @@ export default function SectionReveal({
     [foldStart, 1],
     viewMode === 'flip' ? [0, -200] : viewMode === 'fold' ? [0, -100] : [0, 0]
   );
-  const filter = useTransform(
-    smoothProgress,
-    [foldStart, 1],
-    viewMode === 'blur' ? ['blur(0px)', 'blur(30px)'] : ['blur(0px)', 'blur(0px)']
-  );
 
   return (
     <div
       ref={containerRef}
-      className={`relative w-full ${viewMode === 'fold' ? 'bg-transparent' : 'bg-transparent'}`}
+      className="relative w-full bg-transparent"
       style={{
         height: sticky ? `${scrollDistance + windowHeight}px` : 'auto',
-        zIndex,
-        position: 'relative'
+        zIndex
       }}
     >
       {sticky ? (
         <div
           className="sticky top-0 h-screen w-full overflow-hidden"
-          style={{ 
-            position: 'sticky',
-            perspective: (viewMode === 'flip' || viewMode === 'fold') ? '1200px' : 'none' 
+          style={{
+            perspective: (viewMode === 'flip' || viewMode === 'fold') ? '1200px' : 'none'
           }}
         >
           <motion.div
@@ -136,8 +129,7 @@ export default function SectionReveal({
               opacity: activeReveal ? opacity : 1,
               rotateX: activeReveal ? rotateX : 0,
               z: activeReveal ? translateZ : 0,
-              filter: activeReveal ? filter : 'none',
-              transformOrigin: (viewMode === 'flip' || viewMode === 'fold') ? (viewMode === 'flip' ? 'center top' : 'center bottom') : 'center center',
+              transformOrigin: viewMode === 'flip' ? 'center top' : viewMode === 'fold' ? 'center bottom' : 'center center',
             }}
             className="relative w-full h-full"
           >

@@ -29,8 +29,6 @@ export default function NotFound() {
       {/* ── Texture Overlay (Noise & Patterns) ── */}
       <div className="absolute inset-0 noise pointer-events-none z-0" />
 
-      {/* ── INTERACTIVE 3D SCENE (Particles are now handled inside the WebGL Canvas for true 3D depth) ── */}
-
       {/* ── Large Background Typography ── */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.04] select-none pointer-events-none z-0 rotate-[-12deg] flex flex-col items-center">
         <span className="font-heading text-[25vw] leading-none uppercase">LOST</span>
@@ -138,9 +136,7 @@ export default function NotFound() {
       </div>
 
       {/* ── Spacer for the 404 pastries ── */}
-      <div className="h-[35vh] md:h-[45vh] flex items-center justify-center pointer-events-none opacity-0">
-        <div className="text-9xl font-heading">404</div>
-      </div>
+      <div className="h-[35vh] md:h-[45vh] min-h-32 pointer-events-none" />
 
       {/* ── Buttons with Bouncy Entrance ── */}
       <div className="relative z-10 flex flex-col items-center mb-6 px-4">

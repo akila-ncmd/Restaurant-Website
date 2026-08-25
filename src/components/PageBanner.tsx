@@ -7,7 +7,7 @@ import SmoothMarquee from './SmoothMarquee';
 interface PageBannerProps {
   title: string;
   subtitle: string;
-  breadcrumbs?: { label: string; href?: string }[];
+  breadcrumbs?: { label: string }[];
 }
 
 export default function PageBanner({ title, subtitle, breadcrumbs }: PageBannerProps) {
@@ -99,7 +99,7 @@ export default function PageBanner({ title, subtitle, breadcrumbs }: PageBannerP
         </div>
 
         {/* Breadcrumbs - Premium Grid/Button style */}
-        {breadcrumbs && (
+        {breadcrumbs && breadcrumbs.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

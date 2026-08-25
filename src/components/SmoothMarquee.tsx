@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect, useState } from 'react';
+import { useRef } from 'react';
 import {
   motion,
   useScroll,
@@ -24,7 +24,7 @@ interface MarqueeProps {
   className?: string;
 }
 
-function MarqueeContent({ children, baseVelocity = 100, className = "" }: MarqueeProps) {
+export default function SmoothMarquee({ children, baseVelocity, className = "" }: MarqueeProps) {
   const baseX = useMotionValue(0);
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
@@ -60,48 +60,14 @@ function MarqueeContent({ children, baseVelocity = 100, className = "" }: Marque
     baseX.set(baseX.get() + moveBy);
   });
 
-  /**
-   * The number of times to repeat the content so it fills the screen
-   */
   return (
-    <div className={`overflow-hidden whitespace-nowrap flex flex-nowrap ${className}`}>
+    <div className={`relative w-full overflow-hidden whitespace-nowrap flex flex-nowrap ${className}`}>
       <motion.div className="flex whitespace-nowrap flex-nowrap" style={{ x }}>
         <span>{children} </span>
         <span>{children} </span>
         <span>{children} </span>
         <span>{children} </span>
       </motion.div>
-    </div>
-  );
-}
-
-export default function SmoothMarquee({ children, baseVelocity = 5, className = "" }: MarqueeProps) {
-  const [isHovered, setIsHovered] = useState(false);
-  const velocity = isHovered ? baseVelocity * 0.2 : baseVelocity;
-  const smoothBaseVelocity = useSpring(velocity, { damping: 20, stiffness: 100 });
-  
-  // We use state to track the actual velocity value for the MarqueeContent
-  const [currentVelocity, setCurrentVelocity] = useState(baseVelocity);
-
-  useEffect(() => {
-    return smoothBaseVelocity.on("change", (latest) => {
-      setCurrentVelocity(latest);
-    });
-  }, [smoothBaseVelocity]);
-
-  return (
-    <div 
-      className="relative w-full overflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Edge Fades for smoothness */}
-      <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-inherit to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-inherit to-transparent z-10 pointer-events-none" />
-      
-      <MarqueeContent baseVelocity={currentVelocity} className={className}>
-        {children}
-      </MarqueeContent>
     </div>
   );
 }
